@@ -1,0 +1,20 @@
+#mq配置
+spring:
+  rabbitmq:
+    host: 112.126.63.66
+    port: 5672
+    username: pbsage
+    password: pbsage123
+    virtual-host: /
+    # 开启生产者发送消息后确认,false后不再确认
+    publisher-confirms: true
+    # 发送回调
+    publisher-returns: true
+    listener:
+      simple:
+        #默认true。配置消费方法出现异常后，消息是否重新进入队列
+        default-requeue-rejected: true
+      # 开启消费者消费消息后手动确认，默认是自动确认
+      #NONE，MANUAL,与AUTO（默认）三种。1、当配置了手动确认，但在代码中没有进行手动确认，则队列中不会删除，会显示在页面中queue的unacked中，重启服务后，消费者还可以收到消息
+      #2、当自动确认时，如果监听队列的方法出现异常，则消息会重新进入队列中（如果消费者断开连接（如停了服务），则回到ready中，如果没有断开连接，则一直在unacked中），这样进入死循环。
+        acknowledge-mode: manual
