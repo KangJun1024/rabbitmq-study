@@ -1,10 +1,10 @@
 #mq配置
 spring:
   rabbitmq:
-    host: 112.126.63.66
+    host: 127.0.0.1
     port: 5672
-    username: pbsage
-    password: pbsage123
+    username: guest
+    password: guest
     virtual-host: /
     # 开启生产者发送消息后确认,false后不再确认
     publisher-confirms: true

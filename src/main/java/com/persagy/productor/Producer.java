@@ -4,6 +4,7 @@ import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,14 @@ public class Producer {
 			}
 		}, cd);
 		System.out.println("---死信和存活时长!---");
+	}
+
+	public void sendToDeadQueue(Integer expire) {
+		MessageProperties messageProperties = new MessageProperties();
+		messageProperties.setDelay(expire * 1000);
+		messageProperties.setContentType("json");
+		Message message = new Message(expire.toString().getBytes(), messageProperties);
+		rabbitTemplate.convertAndSend("DELAYED-EXCHANGE", "DELAYED-KEY", message);
 	}
 
 }

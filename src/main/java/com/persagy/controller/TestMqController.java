@@ -16,10 +16,12 @@ public class TestMqController {
 	public void test () {
 //		producer.simpleDemo();
 //		producer.workDemo();
-		producer.directDemo();
+//		producer.directDemo();
 //		producer.sendDLXDemo();
 //		producer.fanoutDemo();
 
+		producer.sendToDeadQueue(40);
+		producer.sendToDeadQueue(8);
 	}
 
 

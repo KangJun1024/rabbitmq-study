@@ -137,4 +137,15 @@ public class Consumer {
         System.out.println("死信队列中的消息："+message);
     }
 
+
+	@RabbitListener(queues = "DELAYED-QUEUE")
+	public void calendarPopUp(byte[] msg) {
+		try {
+			String s = new String(msg, "UTF-8");
+			System.out.println(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
