@@ -138,14 +138,14 @@ public class Consumer {
     }
 
 
-	@RabbitListener(queues = "DELAYED-QUEUE")
-	public void calendarPopUp(byte[] msg) {
-		try {
-			String s = new String(msg, "UTF-8");
-			System.out.println(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@RabbitListener(queues = "66")
+//	public void calendarPopUp(byte[] msg) {
+//		try {
+//			String s = new String(msg, "UTF-8");
+//			System.out.println(s);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

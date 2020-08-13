@@ -1,7 +1,7 @@
 #mq配置
 spring:
   rabbitmq:
-    host: 127.0.0.1
+    host: 120.221.160.2
     port: 5672
     username: guest
     password: guest

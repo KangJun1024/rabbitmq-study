@@ -87,7 +87,7 @@ public class Producer {
 		messageProperties.setDelay(expire * 1000);
 		messageProperties.setContentType("json");
 		Message message = new Message(expire.toString().getBytes(), messageProperties);
-		rabbitTemplate.convertAndSend("DELAYED-EXCHANGE", "DELAYED-KEY", message);
+		rabbitTemplate.convertAndSend("55", "77", message);
 	}
 
 }

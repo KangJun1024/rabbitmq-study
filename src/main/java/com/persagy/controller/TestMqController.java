@@ -20,7 +20,17 @@ public class TestMqController {
 //		producer.sendDLXDemo();
 //		producer.fanoutDemo();
 
-		producer.sendToDeadQueue(40);
+		producer.sendToDeadQueue(1000);
+	}
+
+	@RequestMapping("/test2")
+	public void test2 () {
+//		producer.simpleDemo();
+//		producer.workDemo();
+//		producer.directDemo();
+//		producer.sendDLXDemo();
+//		producer.fanoutDemo();
+
 		producer.sendToDeadQueue(8);
 	}
 
