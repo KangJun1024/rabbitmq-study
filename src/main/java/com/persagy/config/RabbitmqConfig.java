@@ -1,8 +1,12 @@
 package com.persagy.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class RabbitmqConfig {
@@ -129,5 +133,37 @@ public class RabbitmqConfig {
 	public Binding bindingDirectQueueToDirectExchange() {
 		return BindingBuilder.bind(directQueue()).to(directExchange()).with("DIR-BINGD-KEY");
 	}
+
+	/**
+	 *
+	 * 延迟交换机(插件)
+	 *  解决业务上不同超时场景，不能及时消费的问题(订单超时)
+	 *  逻辑隔离，物理隔离可以避免
+	 *
+	 */
+
+	public final static String DELAY_EXCHANGE_NAME = "delay_exchange";
+	public final static String DEALY_ROUTE_KEY = "delay_route";
+	public final static String DELAY_QUEUE_NAME = "delay_queue";
+
+	@Bean
+	public Queue delayedQueue() {
+		return new Queue(DELAY_QUEUE_NAME);
+	}
+
+	@Bean
+	public CustomExchange customExchange() {
+		Map<String, Object> args = new HashMap<>();
+		args.put("x-delayed-type", "direct");
+		return new CustomExchange(DELAY_EXCHANGE_NAME, "x-delayed-message", true, false, args);
+	}
+
+	@Bean
+	public Binding bindingNotify(@Qualifier("delayedQueue") Queue queue,
+								 @Qualifier("customExchange") CustomExchange customExchange) {
+		return BindingBuilder.bind(queue).to(customExchange).with(DEALY_ROUTE_KEY).noargs();
+	}
+
+
 
 }

@@ -1,10 +1,10 @@
 package com.persagy.productor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.persagy.config.RabbitmqConfig;
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,9 @@ public class Producer {
 
 	@Autowired
 	public RabbitTemplate rabbitTemplate;
+
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	/**
 	 * @Title: simpleDemo
@@ -88,6 +91,26 @@ public class Producer {
 		messageProperties.setContentType("json");
 		Message message = new Message(expire.toString().getBytes(), messageProperties);
 		rabbitTemplate.convertAndSend("55", "77", message);
+	}
+
+	/**
+	 * 发送消息至延迟交换机，并且绑定延迟路由
+	 */
+	public void sendDelay(Object object, Integer expire) {
+		Message message;
+		try {
+			message = MessageBuilder
+					.withBody(objectMapper.writeValueAsBytes(object))
+					.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT)
+					.build();
+			this.rabbitTemplate.convertAndSend(RabbitmqConfig.DELAY_EXCHANGE_NAME, RabbitmqConfig.DEALY_ROUTE_KEY, message, a -> {
+						a.getMessageProperties().setDelay(expire);
+						return a;
+					}
+			);
+		} catch (JsonProcessingException e) {
+
+		}
 	}
 
 }

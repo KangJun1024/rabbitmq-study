@@ -14,11 +14,11 @@ public class TestMqController {
 
 	@RequestMapping("/test")
 	public void test () {
-//		producer.simpleDemo();
-//		producer.workDemo();
-//		producer.directDemo();
-//		producer.sendDLXDemo();
-//		producer.fanoutDemo();
+		producer.simpleDemo();
+		producer.workDemo();
+		producer.directDemo();
+		producer.sendDLXDemo();
+		producer.fanoutDemo();
 
 		producer.sendToDeadQueue(1000);
 	}

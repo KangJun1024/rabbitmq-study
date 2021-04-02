@@ -78,7 +78,7 @@ public class Consumer {
     	            //    throw new Exception();
     	            //}
     			// 确认收到消息，false只确认当前consumer一个消息收到，true确认所有consumer获得的消息
-//    			channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    			channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     			System.out.println("----确认成功----");
     		} catch (Exception e) {
     			// 是否重复处理失败
